@@ -35,17 +35,16 @@ BEGIN
         --permanece em IDLE sempre que o rst for 1
         IF rst = '1' THEN
 
-            state <= IDLE;
+            state <= INICIO;
 
         ELSIF rising_edge(clk) THEN
 
             state <= next_state;
 
         END IF;
-    END IF;
 END PROCESS SYNC_PROCCESS;
 
---PROCESSO DE PASSAGEM DOS ESTADOS ATRAVES DAS CONDIÇÕES
+--PROCESSO DE PASSAGEM DOS ESTADOS ATRAVES DAS CONDICOES
 fsm_next_state : PROCESS (state, c, tot_lt_s)
 BEGIN
     CASE state IS
@@ -62,23 +61,16 @@ BEGIN
 
         WHEN SOMAR =>
             next_state <= ESPERAR;
-        WHEN GIVE =>
+        WHEN FORNECER =>
             next_state <= INICIO;
-            --PARA CASO DE ERROS, MANTEM AS VARIAVEIS SETADAS
-        WHEN OTHERS =>
-            next_state <= state;
-            c <= c;
-            tot_lt_s <= tot_lt_s;
+ 
     END CASE;
 
 END PROCESS fsm_next_state;
 
 --Tratando as saídas nos estados
-d <= '1' WHEN state = FORNECER ELSE
-    '0';
-tot_ld <= '1' WHEN state = SOMAR ELSE
-    '0';
-tot_clr <= '1' WHEN state = INICIO ELSE
-    '0';
+d <= '1' WHEN state = FORNECER ELSE '0';
+tot_ld <= '1' WHEN state = SOMAR ELSE '0';
+tot_clr <= '1' WHEN state = INICIO ELSE '0';
 
 END ARCHITECTURE arch;

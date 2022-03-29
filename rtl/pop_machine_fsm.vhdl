@@ -14,7 +14,7 @@ ENTITY pop_machine_fsm IS
         --preço da moeda
         a : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
         --saida da maquina
-        d : OUT STD_LOGIC;
+        d : OUT STD_LOGIC
 
     );
 END ENTITY pop_machine_fsm;

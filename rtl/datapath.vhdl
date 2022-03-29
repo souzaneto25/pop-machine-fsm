@@ -35,12 +35,12 @@ BEGIN
         --SE O RESET FOR 1 ELE VAI ZERAR O TOTAL
         IF rst = '1' THEN
             tot <= b"00000000";
-            --SENÃO SE O CLK ESTIVER SUBINDO
+            --SENAO SE O CLK ESTIVER SUBINDO
         ELSIF rising_edge(clk) THEN
             --SE CLEAR FOR 1 ELE VAI ZERAR O TOTAL
             IF tot_clr = '1' THEN
                 tot <= b"00000000";
-                --SENÃO SE O LOAD FOR 1 ELE VAI RETORNAR O VALOR DA SOMA
+                --SENAO SE O LOAD FOR 1 ELE VAI RETORNAR O VALOR DA SOMA
             ELSIF tot_ld = '1' THEN
                 tot <= soma;
             END IF;
