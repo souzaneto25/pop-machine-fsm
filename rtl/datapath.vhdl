@@ -15,8 +15,14 @@ ENTITY datapath IS
         s : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
         --preço da moeda
         a : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+   	--valor do troco
+        troco : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
         --indica se o total é menor que o preço do refri
-        tot_lt_s : OUT STD_LOGIC
+        tot_lt_s : OUT STD_LOGIC;
+        --indica se o total é igual ao preço do refri
+        tot_eq_s : OUT STD_LOGIC;
+        --indica se o total é maior que o preço do refri
+        tot_hg_s : OUT STD_LOGIC
     );
 END ENTITY datapath;
 
@@ -49,9 +55,17 @@ BEGIN
 
     --para somar ou comparar os sinais é necessario torna-los unsigned (sem sinal) e depois retornalos ao valor que eram
 
-    --FUNCIONAMENTO DO COMPARADOR
+    --FUNCIONAMENTO DO COMPARADOR MENOR
     tot_lt_s <= '1' WHEN unsigned(tot) < unsigned(s) ELSE '0';
+    --FUNCIONAMENTO DO COMPARADOR IGUAL
+    tot_eq_s <= '1' WHEN unsigned(tot) = unsigned(s) ELSE '0';
+    --FUNCIONAMENTO DO COMPARADOR MAIOR OU VERICACAO DE UMA NOR COM ENTRADAS (tot_lt_s e tot_eq_s)
+    tot_hg_s <= '1' WHEN unsigned(tot) > unsigned(s) ELSE '0';
 
+	
+    --FUNCIONAMENTO DO SUBTRATOR ATRAVES DE UM LATCH QUANDO tot_hg_s for 1
+    troco <= (STD_LOGIC_VECTOR(unsigned(tot) - unsigned(s))) WHEN unsigned(tot) > unsigned(s) ELSE b"00000000";
+    
     --FUNCIONAMENTO DO SOMADOR
     soma <= STD_LOGIC_VECTOR(unsigned(tot) + unsigned(a));
 
